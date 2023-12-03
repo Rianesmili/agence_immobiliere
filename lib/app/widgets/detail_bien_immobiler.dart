@@ -80,7 +80,9 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
                 }
               },
             ),
-            Image.asset(widget.bienImmobilier.image),
+            Image.asset(widget.bienImmobilier.image,
+                fit: BoxFit.cover, width: 200, height: 200),
+            const SizedBox(width: 20),
           ],
         ),
       ),
