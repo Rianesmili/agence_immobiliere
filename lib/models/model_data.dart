@@ -3,7 +3,7 @@ class BienImmobilier {
   TypeBien type;
   int nombrePieces;
   double prix;
-  String image;
+  String image ;
 
   BienImmobilier({
     required this.numero,
@@ -12,7 +12,10 @@ class BienImmobilier {
     required this.prix,
     required this.image,
   });
+
 }
+
+
 
 enum TypeBien {
   appartement,

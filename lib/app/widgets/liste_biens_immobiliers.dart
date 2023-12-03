@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../data/repository/repository.dart';
@@ -13,6 +15,21 @@ class ListeBiensImmobiliers extends StatefulWidget {
 }
 
 class _ListeBiensImmobiliersState extends State<ListeBiensImmobiliers> {
+  late StreamSubscription _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // Écoute le Stream et appelle setState chaque fois qu'un événement est reçu
+    _subscription = Repository.updateStream.listen((_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel(); // annuler l'abonnement lorsque le widget est supprimé
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
