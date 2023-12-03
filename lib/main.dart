@@ -1,5 +1,8 @@
+import 'package:agence_immobiliere/app/widgets/detail_bien_immobiler.dart';
 import 'package:agence_immobiliere/app/widgets/liste_biens_immobiliers.dart';
 import 'package:flutter/material.dart';
+
+import 'models/model_data.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +33,14 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const ListeBiensImmobiliers(),
+      // home: const ListeBiensImmobiliers(),
+      initialRoute: '/realestate',
+      routes: {
+        '/realestate': (context) => const ListeBiensImmobiliers(),
+        '/details' : (context) => DetailsBienImmobilier(
+          bienImmobilier: ModalRoute.of(context)!.settings.arguments as BienImmobilier,
+        ),
+      },
     );
   }
 }

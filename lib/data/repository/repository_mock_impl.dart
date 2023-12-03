@@ -1,16 +1,18 @@
-import '../../models/model_data.dart';
+import 'package:agence_immobiliere/data/repository/repository.dart';
+import 'package:agence_immobiliere/models/model_data.dart';
 
-abstract class Repository {
-  static final List<BienImmobilier> _biensImmobiliers = [
-    BienImmobilier(
-      // innitialize the list with some data
-
-      numero: 1234,
-      type: TypeBien.appartement,
-      nombrePieces: 4,
-      prix: 100000,
-      image: 'lib/assets/images/appartement1.jpg',
-    ),
+class RepoMockImpl implements Repository{
+  @override
+  get listBienImmobiliers async {
+    return[
+      BienImmobilier(
+        // innitialize the list with some data
+        numero: 1234,
+        type: TypeBien.appartement,
+        nombrePieces: 4,
+        prix: 100000,
+        image: 'lib/assets/images/appartement1.jpg',
+      ),
       BienImmobilier(
         numero: 456,
         type: TypeBien.maison,
@@ -40,15 +42,6 @@ abstract class Repository {
         image: 'lib/assets/images/maison3.jpg',
       ),
     ];
-
-  static Future<List<BienImmobilier>> getBiensImmobiliers() async {
-    return _biensImmobiliers;
   }
 
-  static void updateBienImmobilier(BienImmobilier updatedBien) {
-    final index = _biensImmobiliers.indexWhere((bien) => bien.numero == updatedBien.numero);
-    if (index != -1) {
-      _biensImmobiliers[index] = updatedBien;
-    }
-  }
 }

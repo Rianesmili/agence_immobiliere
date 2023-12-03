@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/products.dart';
+import '../../models/model_data.dart';
 
 class BienImmobilierItem extends StatelessWidget {
   final BienImmobilier bienImmobilier;

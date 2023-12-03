@@ -1,9 +1,9 @@
 class BienImmobilier {
-  final int numero;
-  final TypeBien type;
-  final int nombrePieces;
-  final double prix;
-  final String image;
+  int numero;
+  TypeBien type;
+  int nombrePieces;
+  double prix;
+  String image;
 
   BienImmobilier({
     required this.numero,
