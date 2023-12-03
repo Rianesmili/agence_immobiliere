@@ -15,8 +15,6 @@ class BienImmobilier {
 
 }
 
-
-
 enum TypeBien {
   appartement,
   maison,
