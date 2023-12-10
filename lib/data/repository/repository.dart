@@ -2,11 +2,17 @@ import 'dart:async';
 
 import '../../models/model_data.dart';
 
-class Repository {
-  static final List<BienImmobilier> _biensImmobiliers = [
-    BienImmobilier(
-      // innitialize the list with some data
+abstract class Repository {
+  Future<List<BienImmobilier>> getBiensImmobiliers();
 
+  void updateBienImmobilier(BienImmobilier updatedBien);
+
+  Stream<BienImmobilier> get updateStream;
+}
+
+class RepositoryImpl implements Repository {
+  final List<BienImmobilier> _biensImmobiliers = [
+    BienImmobilier(
       numero: 1234,
       type: TypeBien.appartement,
       nombrePieces: 4,
@@ -44,20 +50,27 @@ class Repository {
     ];
 
   // Création d'un StreamController qui émettra un événement chaque fois qu'un BienImmobilier est mis à jour
-  static final StreamController<BienImmobilier> _updateController = StreamController<BienImmobilier>.broadcast();
+  final StreamController<BienImmobilier> _updateController = StreamController<BienImmobilier>.broadcast();
 
-  static Future<List<BienImmobilier>> getBiensImmobiliers() async {
+  @override
+  Future<List<BienImmobilier>> getBiensImmobiliers() async {
     return _biensImmobiliers;
   }
 
-  static void updateBienImmobilier(BienImmobilier updatedBien) {
+  @override
+  void updateBienImmobilier(BienImmobilier updatedBien) {
     final index = _biensImmobiliers.indexWhere((bien) => bien.numero == updatedBien.numero);
     if (index != -1) {
       _biensImmobiliers[index] = updatedBien;
-      _updateController.add(updatedBien); // Émet un événement chaque fois qu'un BienImmobilier est mis à jour
+      _updateController.add(updatedBien);
     }
   }
 
-  // Méthode pour obtenir le Stream du StreamController
-  static Stream<BienImmobilier> get updateStream => _updateController.stream;
+  void dispose() {
+    _updateController.close();
+  }
+
+
+  @override
+  Stream<BienImmobilier> get updateStream => _updateController.stream;
 }

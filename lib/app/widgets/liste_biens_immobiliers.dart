@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../data/repository/repository.dart';
 import '../../models/model_data.dart';
 import 'bien_immobiler_item.dart';
-import 'detail_bien_immobiler.dart'; // Import the details page
+import 'detail_bien_immobiler.dart';
 
 class ListeBiensImmobiliers extends StatefulWidget {
-  const ListeBiensImmobiliers({super.key});
+  const ListeBiensImmobiliers({Key? key}) : super(key: key);
 
   @override
   _ListeBiensImmobiliersState createState() => _ListeBiensImmobiliersState();
@@ -16,17 +17,19 @@ class ListeBiensImmobiliers extends StatefulWidget {
 
 class _ListeBiensImmobiliersState extends State<ListeBiensImmobiliers> {
   late StreamSubscription _subscription;
+  final repository = GetIt.instance<Repository>();
 
   @override
   void initState() {
     super.initState();
-    // Écoute le Stream et appelle setState chaque fois qu'un événement est reçu
-    _subscription = Repository.updateStream.listen((_) => setState(() {}));
+    // Listen to the Stream and call setState every time an event is received
+    _subscription = repository.updateStream.listen((_) => setState(() {}));
   }
 
   @override
   void dispose() {
-    _subscription.cancel(); // annuler l'abonnement lorsque le widget est supprimé
+    _subscription
+        .cancel(); // Cancel the subscription when the widget is removed
     super.dispose();
   }
 
@@ -37,7 +40,7 @@ class _ListeBiensImmobiliersState extends State<ListeBiensImmobiliers> {
         title: const Text('Real Estate'),
       ),
       body: FutureBuilder<List<BienImmobilier>>(
-        future: Repository.getBiensImmobiliers(),
+        future: repository.getBiensImmobiliers(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -55,7 +58,11 @@ class _ListeBiensImmobiliersState extends State<ListeBiensImmobiliers> {
                     );
                     setState(() {});
                   },
-                  child: BienImmobilierItem(bienImmobilier: snapshot.data![index]),
+                  child: Expanded(
+                    // Add this
+                    child: BienImmobilierItem(
+                        bienImmobilier: snapshot.data![index]),
+                  ),
                 );
               },
             );

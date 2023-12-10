@@ -1,10 +1,14 @@
 import 'package:agence_immobiliere/app/widgets/detail_bien_immobiler.dart';
 import 'package:agence_immobiliere/app/widgets/liste_biens_immobiliers.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
+import 'data/repository/repository.dart';
+import 'data/repository/repository_mock_impl.dart';
 import 'models/model_data.dart';
 
 void main() {
+  GetIt.instance.registerSingleton<Repository>(RepoMockImpl());
   runApp(const MyApp());
 }
 
@@ -16,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.deepPurple);
     return MaterialApp(
+      debugShowCheckedModeBanner: false, // remove debug banner
       title: 'agence immobilière',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -33,7 +38,6 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      // home: const ListeBiensImmobiliers(),
       initialRoute: '/realestate',
       routes: {
         '/realestate': (context) => const ListeBiensImmobiliers(),

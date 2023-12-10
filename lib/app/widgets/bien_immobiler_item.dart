@@ -1,4 +1,7 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../../models/model_data.dart';
 
@@ -20,8 +23,12 @@ class BienImmobilierItem extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Image.asset(bienImmobilier.image,
-                  fit: BoxFit.cover, width: 200, height: 200),
+              if (kIsWeb)
+                Image.network(bienImmobilier.image,
+                    fit: BoxFit.cover, width: 200, height: 200)
+              else
+                Image.file(io.File(bienImmobilier.image),
+                    fit: BoxFit.cover, width: 200, height: 200),
               const SizedBox(width: 20),
               // add padding to image,
               Column(

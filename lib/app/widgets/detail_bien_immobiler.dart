@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:universal_html/html.dart' as html;
 import '../../data/repository/repository.dart';
@@ -8,10 +9,9 @@ import '../../models/model_data.dart';
 
 class DetailsBienImmobilier extends StatefulWidget {
   final BienImmobilier bienImmobilier;
+  final repository = GetIt.instance<Repository>();
 
-  const DetailsBienImmobilier({ super.key,
-    required this.bienImmobilier,
-  });
+  DetailsBienImmobilier({Key? key, required this.bienImmobilier}) : super(key: key);
 
   @override
   State<DetailsBienImmobilier> createState() => _DetailsBienImmobilierState();
@@ -45,7 +45,7 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
         setState(() {
           imageUrl = reader.result as String?;
           widget.bienImmobilier.image = imageUrl!;
-          Repository.updateBienImmobilier(widget.bienImmobilier);
+          widget.repository.updateBienImmobilier(widget.bienImmobilier);
         });
       }
     } else {
@@ -56,7 +56,7 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
         setState(() {
           imageUrl = image.path;
           widget.bienImmobilier.image = imageUrl!;
-          Repository.updateBienImmobilier(widget.bienImmobilier);
+          widget.repository.updateBienImmobilier(widget.bienImmobilier);
         });
       }
     }
@@ -78,7 +78,7 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
               onChanged: (TypeBien? value) {
                 setState(() {
                   widget.bienImmobilier.type = value!;
-                  Repository.updateBienImmobilier(widget.bienImmobilier);
+                  widget.repository.updateBienImmobilier(widget.bienImmobilier);
                 });
               },
               items: TypeBien.values.map((TypeBien type) {
@@ -95,7 +95,7 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
                   int newValue = int.parse(value);
                   setState(() {
                     widget.bienImmobilier.nombrePieces = newValue;
-                    Repository.updateBienImmobilier(widget.bienImmobilier);
+                    widget.repository.updateBienImmobilier(widget.bienImmobilier);
                   });
                 } catch (e) {
                   // Handle the error appropriately.
@@ -110,7 +110,7 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
                   double newValue = double.parse(value);
                   setState(() {
                     widget.bienImmobilier.prix = newValue;
-                    Repository.updateBienImmobilier(widget.bienImmobilier);
+                    widget.repository.updateBienImmobilier(widget.bienImmobilier);
                   });
                 } catch (e) {
                   // Handle the error appropriately.
@@ -130,5 +130,11 @@ class _DetailsBienImmobilierState extends State<DetailsBienImmobilier> {
         ),
       ),
     );
+  }
+  @override
+  void dispose() {
+    nombrePiecesController.dispose();
+    prixController.dispose();
+    super.dispose();
   }
 }
